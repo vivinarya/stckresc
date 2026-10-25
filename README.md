@@ -1,5 +1,9 @@
 # StockRescue
 
+<p align="center">
+  <img src="docs/logo.jpg" alt="StockRescue Logo" width="180" style="border-radius: 50%;" />
+</p>
+
 ![tag:innovationlab](https://img.shields.io/badge/innovationlab-3D8BD3)
 ![tag:hackathon](https://img.shields.io/badge/hackathon-5F43F1)
 
@@ -51,30 +55,30 @@ Send one message to **@stockrescue** on ASI:One:
 
 ```mermaid
 flowchart TD
-    User([Business User]) -->|Natural Language Prompt| ASIONE[ASI:One Chat + ACP]
-    ASIONE --> COORD[Coordinator + ASI1 Mini<br/>agent1qwftafhh6kekpkzqxh4mdzuvnphhqrqkwxfxgnaccde3fms6r65svnk0cma]
+    User(["Business User"]) -->|"Natural Language Prompt"| ASIONE["ASI:One Chat + ACP"]
+    ASIONE --> COORD["Coordinator + ASI1 Mini<br/>agent1qwftafhh6kekpkzqxh4mdzuvnphhqrqkwxfxgnaccde3fms6r65svnk0cma"]
 
-    COORD --> ONBOARD[Business Onboarding]
-    ONBOARD --> SUPABASE[(Supabase DB<br/>Company, Products, Inventory, Suppliers)]
+    COORD --> ONBOARD["Business Onboarding"]
+    ONBOARD --> SUPABASE[("Supabase DB<br/>Company, Products, Inventory, Suppliers")]
     COORD <--> SUPABASE
 
-    COORD --> INVBOM[Inventory / BOM Agent<br/>sr-inventory]
-    COORD --> JOBIMP[Job Impact Agent<br/>sr-jobimpact]
-    COORD --> SUPPDISC[Supplier Discovery + Compatibility<br/>sr-suppliers]
-    COORD --> QUOTERISK[Quote Risk + Recovery Planning<br/>sr-quoterisk]
+    COORD --> INVBOM["Inventory / BOM Agent<br/>sr-inventory"]
+    COORD --> JOBIMP["Job Impact Agent<br/>sr-jobimpact"]
+    COORD --> SUPPDISC["Supplier Discovery + Compatibility<br/>sr-suppliers"]
+    COORD --> QUOTERISK["Quote Risk + Recovery Planning<br/>sr-quoterisk"]
 
-    SUPPDISC --> VENDORCOMM[Vendor Communication<br/>sr-vendorcomms]
-    VENDORCOMM -.->|Optional Voice RFQ| VOICE[Twilio + ElevenLabs]
+    SUPPDISC --> VENDORCOMM["Vendor Communication<br/>sr-vendorcomms"]
+    VENDORCOMM -.->|"Optional Voice RFQ"| VOICE["Twilio + ElevenLabs"]
 
-    QUOTERISK --> RECOVOPTS[Validated Recovery Options]
-    RECOVOPTS --> INTERACTIVE[Interactive Cards or Chat Response]
+    QUOTERISK --> RECOVOPTS["Validated Recovery Options"]
+    RECOVOPTS --> INTERACTIVE["Interactive Cards or Chat Response"]
 
-    COORD --> PROCAPPR[Procurement Approval<br/>sr-procure]
-    PROCAPPR --> PODRAFT[Purchase Draft (Draft-Only)]
-    PODRAFT --> DELIVWATCH[Delivery Watch<br/>sr-delivery]
+    COORD --> PROCAPPR["Procurement Approval<br/>sr-procure"]
+    PROCAPPR --> PODRAFT["Purchase Draft (Draft-Only)"]
+    PODRAFT --> DELIVWATCH["Delivery Watch<br/>sr-delivery"]
 
-    COORD --> PAYPROT[Payment Protocol (Seller)]
-    PAYPROT --> PREMREP[Premium Report]
+    COORD --> PAYPROT["Payment Protocol (Seller)"]
+    PAYPROT --> PREMREP["Premium Report"]
 
     INTERACTIVE --> User
 ```
