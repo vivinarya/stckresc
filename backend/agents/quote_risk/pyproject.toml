@@ -1,0 +1,7 @@
+[project]
+name = "stockrescue-quote-risk"
+version = "1.0.0"
+description = "Evaluates recorded supplier-quote risks and proposes recovery plans against verified cost and deadline constraints."
+dependencies = [
+    "uagents>=0.25.0",
+]

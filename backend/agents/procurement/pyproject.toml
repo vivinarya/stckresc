@@ -1,0 +1,7 @@
+[project]
+name = "stockrescue-procurement"
+version = "1.0.0"
+description = "Prepares validated procurement drafts for StockRescue recovery plans and enforces server-side human-approval requirements."
+dependencies = [
+    "uagents>=0.25.0",
+]

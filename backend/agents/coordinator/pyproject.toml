@@ -1,0 +1,8 @@
+[project]
+name = "stockrescue-coordinator"
+version = "1.0.0"
+description = "Autonomous multi-agent supply chain disruption orchestrator for manufacturing and industrial operations."
+dependencies = [
+    "uagents>=0.25.0",
+    "uagents-core>=0.4.0",
+]

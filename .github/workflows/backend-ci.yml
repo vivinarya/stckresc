@@ -1,0 +1,61 @@
+name: Backend CI - Syntax & Test Verification
+
+on:
+  push:
+    branches: [ main, master ]
+    paths:
+      - 'backend/**'
+      - '.github/workflows/backend-ci.yml'
+  pull_request:
+    branches: [ main, master ]
+    paths:
+      - 'backend/**'
+      - '.github/workflows/backend-ci.yml'
+
+jobs:
+  lint-and-test:
+    name: Python Syntax & Quality Check
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install flake8 pytest
+
+      - name: Check Python Syntax (Bytecode compilation)
+        run: |
+          python -m compileall -q backend/
+
+      - name: Lint Python Code with Flake8
+        run: |
+          # Stop the build if there are Python syntax errors or undefined names
+          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+          # Exit-zero treats all errors as warnings. Max line length 120
+          flake8 . --count --exit-zero --max-complexity=15 --max-line-length=120 --statistics
+
+      - name: Run Test Suite
+        env:
+          APP_ENV: testing
+          STOCKRESCUE_ENV: testing
+          DATABASE_BACKEND: sqlite
+          DATABASE_PATH: ":memory:"
+          REAL_TELEPHONY_ENABLED: false
+          VOICE_PROVIDER: simulated
+          SPECIALIST_TRANSPORT_MODE: local
+        run: |
+          pytest -v

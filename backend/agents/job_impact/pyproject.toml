@@ -1,0 +1,7 @@
+[project]
+name = "stockrescue-job-impact"
+version = "1.0.0"
+description = "Evaluates plant production priorities, work order deadlines, and customer commitments."
+dependencies = [
+    "uagents>=0.25.0",
+]

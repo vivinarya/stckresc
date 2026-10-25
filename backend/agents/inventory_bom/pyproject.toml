@@ -1,0 +1,7 @@
+[project]
+name = "stockrescue-inventory-bom"
+version = "1.0.0"
+description = "Assesses inventory balances, BOM demand, and SKU shortages for industrial disruption cases."
+dependencies = [
+    "uagents>=0.25.0",
+]

@@ -1,0 +1,7 @@
+[project]
+name = "stockrescue-supplier-discovery"
+version = "1.0.0"
+description = "Discovers certified suppliers and validates replacement part compatibility for industrial shortages."
+dependencies = [
+    "uagents>=0.25.0",
+]

@@ -1,0 +1,7 @@
+[project]
+name = "stockrescue-delivery-watch"
+version = "1.0.0"
+description = "Monitors carrier delivery tracking milestones, transit delays, and exceptions for expedited parts."
+dependencies = [
+    "uagents>=0.25.0",
+]

@@ -1,0 +1,7 @@
+[project]
+name = "stockrescue-vendor-voice"
+version = "1.0.0"
+description = "Drafts supplier inquiries for quotes, availability, lead times, and expedites. Human operators review and send all communications."
+dependencies = [
+    "uagents>=0.25.0",
+]

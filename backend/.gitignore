@@ -1,0 +1,59 @@
+# Python Cache & Bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual Environments
+.venv/
+venv/
+ENV/
+env/
+
+# Environment variables & secrets
+.env
+*.env
+!.env.example
+private_keys.json
+
+# Testing & Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+
+# Agentverse Local Cache & Metadata
+**/.avctl/
+.avctl/
+
+# Databases & Runtime Data
+data/*.db*
+data/*.sqlite*
+data/runtime/*.db*
+data/runtime/*.sqlite*
+*.db
+*.db-*
+*.sqlite
+*.sqlite3
+*.sqlite3-*
+*.db-journal
+*.db-wal
+*.db-shm
+
+# Logs
+logs/
+*.log
+
+# Distribution & Builds
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# IDE & OS Metadata
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
