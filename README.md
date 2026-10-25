@@ -247,4 +247,3 @@ print(execute_coordinator_tool('generate_recovery_options', '{\"case_id\": \"CAS
 - **FastAPI & PostgreSQL (Supabase):** Enterprise inventory repository, disruption tracking, and audit persistence.
 - **Pydantic v2:** Cryptographic fingerprinting and deterministic schema validation.
 - **ElevenLabs & Twilio:** Conversational voice synthesis and telephony media streaming.
-- **Vite, React & Tailwind CSS:** Operator monitoring portal and interactive multi-agent control board.
