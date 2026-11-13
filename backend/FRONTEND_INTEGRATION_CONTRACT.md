@@ -1,6 +1,6 @@
 # StockRescue Frontend Integration Contract
 
-This contract defines the authoritative HTTP API surface, authentication requirements, schemas, operational behavior, and security boundaries implemented in the StockRescue FastAPI Warehouse backend (`C:\agent\stockrescue\backend`).
+This contract defines the authoritative HTTP API surface, authentication requirements, schemas, operational behavior, and security boundaries implemented in the StockRescue FastAPI Warehouse backend (`backend/`).
 
 Frontend client developers must build directly against these validated specifications.
 

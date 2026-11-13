@@ -8,17 +8,19 @@ Autonomous multi-agent orchestrator for industrial supply disruptions, part shor
 ---
 
 ## 1. Executive Overview & Problem Statement
+
 Modern manufacturing facilities, automated assembly plants, and critical infrastructure systems face devastating losses when a key mechanical or electrical component fails and no replacement is on hand. Plant downtime frequently costs between $10,000 and $250,000 per hour. Traditional manual procurement—involving phone calls, email chains, distributor catalog inquiries, and offline spreadsheet comparisons—requires days to resolve what must be addressed in hours.
 
 The **StockRescue Coordinator** is an autonomous, decentralized orchestrator built on the Fetch.ai uAgents framework and native Agentverse cloud hosting. Acting as the operational brain of the StockRescue swarm, it:
 1. Ingests natural language disruption reports or structured emergency tickets directly from plant managers via **ASI:One**.
-2. Coordinates seven autonomous specialist agents to assess inventory, calculate downtime penalties, discover certified replacement suppliers, score quote risk, generate purchase orders, log supplier communications, and track logistics.
+2. Coordinates specialist agents to assess inventory, calculate downtime penalties, discover certified replacement suppliers, verify OEM engineering compatibility, score quote risk, generate purchase orders, log supplier communications, and track logistics.
 3. Synthesizes multi-criteria recovery options (Fast-Track Expedited, Balanced Recommended, Cost-Optimized) rendered as interactive, single-click decision cards.
 4. Executes non-custodial, cryptographic monetization via the **Agent Payment Protocol** (0.50 USDC per verified recovery audit pack).
 
 ---
 
 ## 2. Architecture & Event-Driven Execution Model
+
 The Coordinator operates strictly on an **event-driven, zero-idle sleep model**:
 - **0% Idle CPU Consumption**: Does not utilize polling loops (`@agent.on_interval`). The agent's micro-container remains dormant until an inbound protocol message triggers the runtime.
 - **Fast Execution & Sub-Second Latency**: Wakes up in ~50ms upon message arrival, executes deterministic graph orchestration or LLM intent parsing via `asi1-mini`, emits outbound messages/cards, and immediately returns to sleep.
@@ -40,8 +42,8 @@ The Coordinator operates strictly on an **event-driven, zero-idle sleep model**:
          |                        |                        |
          v                        v                        v
 +-----------------+      +-----------------+      +-----------------+
-|  Inventory BOM  |      |   Job Impact    |      |    Suppliers    |
-|   Specialist    |      |   Specialist    |      |   Specialist    |
+|  Inventory BOM  |      |   Job Impact    |      |  Suppliers &    |
+|   Specialist    |      |   Specialist    |      |  Compatibility  |
 +--------+--------+      +--------+--------+      +--------+--------+
          |                        |                        |
          +------------------------+------------------------+
@@ -50,9 +52,15 @@ The Coordinator operates strictly on an **event-driven, zero-idle sleep model**:
          |                        |                        |
          v                        v                        v
 +-----------------+      +-----------------+      +-----------------+
-|   Quote Risk    |      |   Procurement   |      |  Delivery Watch |
-|   Specialist    |      |   Specialist    |      |   Specialist    |
-+-----------------+      +-----------------+      +-----------------+
+|  Quote Risk &   |      |  Procurement    |      | Delivery Watch  |
+| Recovery Planner|      |   Specialist    |      |   Specialist    |
++--------+--------+      +--------+--------+      +-----------------+
+         |                        |
+         v                        v
++-----------------+      +-----------------+
+|  Vendor Voice   |      | Payment Protocol|
+|  & Telephony    |      | (Seller 0.5USDC)|
++-----------------+      +-----------------+
 ```
 
 ---
@@ -67,6 +75,7 @@ The Coordinator operates strictly on an **event-driven, zero-idle sleep model**:
   - `DetailCard`: Executive triage summary displaying impacted line, estimated downtime cost, shortage count, and lead-time constraints.
   - `CarouselCard`: Comparative multi-strategy cards (Expedite vs Balanced vs Cost-Save) with action buttons.
   - `ReviewCard`: Verified purchase order and audit report details.
+  - `DeliveryTrackingCard`: Real-time milestone tracker for in-transit hotshot couriers.
 
 ### B. Agent Payment Protocol (USDC Monetization)
 - **Namespace**: `agent_payment_protocol` (Role: `seller`)
@@ -83,12 +92,13 @@ The Coordinator operates strictly on an **event-driven, zero-idle sleep model**:
 - **Inbound/Outbound Envelope**: `TaskRequest` and `TaskResponse`
 - **Fields**:
   - `task_id` (str): Unique UUID correlation tracker.
-  - `task_type` (str): Specific specialist subtask (`inventory_bom`, `job_impact`, `supplier_discovery`, `quote_risk`, `procurement_plan`, `delivery_watch`).
+  - `task_type` (str): Specific specialist subtask (`inventory_bom`, `job_impact`, `supplier_discovery`, `compatibility`, `quote_risk`, `recovery_planner`, `procurement_plan`, `vendor_voice`, `delivery_watch`).
   - `payload` (dict): Domain-specific parameters.
 
 ---
 
 ## 4. Deterministic Logic & Decision Synthesis
+
 1. **Shortage Calculation**: Verifies net deficit: $\text{Shortage} = \max(0, \text{Required} - \text{Warehouse Stock})$.
 2. **Impact Severity Scoring**: Evaluates production line priority (Tier 1 Automotive/Aerospace vs Tier 3 Packaging), calculating hourly penalty costs:
    $$\text{Financial Risk} = \text{Downtime Hours} \times \text{Hourly Rate} + \text{SLA Penalties}$$
@@ -100,7 +110,8 @@ The Coordinator operates strictly on an **event-driven, zero-idle sleep model**:
 ---
 
 ## 5. Security, Provenance & Operational Guardrails
-- **Human-in-the-Loop Safeguard**: The Coordinator autonomously aggregates and evaluates plans, but **never executes live financial commitments** without explicit operator confirmation.
+
+- **Human-in-the-Loop Safeguard**: The Coordinator autonomously aggregates and evaluates plans, but **never executes live financial commitments** without explicit operator confirmation (`REAL_PURCHASING_ENABLED=false`).
 - **Strict Role Enforcement**: Agent Payment Protocol explicitly operates with `role="seller"`, ensuring deterministic protocol state-machine transitions.
 - **Non-Custodial Escrow**: Uses verified Skyfire / Web3 payment channels without holding custodial private keys.
 - **Data Privacy**: Enterprise ERP database credentials and private network addresses are stored strictly in protected environment secrets, never exposed over public chat channels.
@@ -108,6 +119,7 @@ The Coordinator operates strictly on an **event-driven, zero-idle sleep model**:
 ---
 
 ## 6. Starter Prompts & Operator Usage
+
 Operators interacting with `@stockrescue` in ASI:One can use the following starter prompts:
 1. `recover DEMO-STOCK-RESCUE-001`: Triggers end-to-end triage for sample industrial pump failure.
 2. `Check stockout risk and find replacement suppliers for pump bearings`: Analyzes current inventory shortfalls and discovers candidate suppliers.
